@@ -18,7 +18,7 @@ const io = new Server(server, {
   },
 });
 
-// ************************** Middlewares ****************************
+// ************************** Middlewares ***************************
 app.use(cors());
 dotenv.config();
 
@@ -35,9 +35,9 @@ app.use("/api/v1", ConversationRoutes);
 app.use("/api/v1", MessageRoutes);
 
 // ******************** Server Listening on PORT 5000 *****************************
-server.listen(process.env.PORT || 5000, () => {
+server.listen(process.env.PORT, () => {
   console.log(
-    `Server is running at http://localhost:${process.env.PORT || 5000}`
+    `Server is running at http://localhost:${process.env.PORT}`
   );
 });
 

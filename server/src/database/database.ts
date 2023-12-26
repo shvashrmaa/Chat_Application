@@ -1,12 +1,8 @@
 import mongoose, { Connection, mongo } from "mongoose";
 
 export async function connectToMongo(): Promise<Connection | void> {
-  const MONGODBURL =
-    "mongodb+srv://sharmashiva0103:sharmashiva0103@cluster0.bhgudus.mongodb.net/";
   try {
-    const connection = await mongoose.connect(
-      process.env.MONGODBURL || MONGODBURL
-    );
+    const connection = await mongoose.connect(process.env.MONGODB_URL);
 
     console.log("Database successfully connected");
 
