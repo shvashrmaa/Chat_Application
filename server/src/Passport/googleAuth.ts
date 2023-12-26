@@ -1,11 +1,9 @@
-import GoogleOAuth from "passport-google-oauth20";
+import { Strategy as GoogleStrategy  } from "passport-google-oauth20";
 import passport from "passport";
 import UserModel from "../models/userSchema";
 
-const googleStrategy = GoogleOAuth.Strategy;
-
 passport.use(
-  new googleStrategy(
+  new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -13,7 +11,16 @@ passport.use(
     },
 
     function (accessToken, refreshToken, profile, cb) {
-        console.log(profile)
+      console.log(profile);
     }
   )
 );
+
+
+
+passport.serializeUser(function (user: any, done) {
+  return done(null, user);
+});
+passport.deserializeUser(function (id: any, done) {
+  return done(null, id);
+});

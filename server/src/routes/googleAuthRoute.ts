@@ -4,7 +4,9 @@ import { Request, Response } from "express";
 
 const router = express.Router();
 
-router.route("/auth/google").get(passport.authenticate("google", { scope: ["profile"] }));
+router
+  .route("/auth/google")
+  .get(passport.authenticate("google", { scope: ["profile", "email"] }));
 
 router.route("/auth/google/callback").get(
   passport.authenticate("google", {

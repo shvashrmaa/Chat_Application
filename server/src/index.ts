@@ -50,9 +50,9 @@ app.get("/", (req: any, res: any) => {
 app.use("/api/v1", UserRoutes);
 app.use("/api/v1", ConversationRoutes);
 app.use("/api/v1", MessageRoutes);
-app.use("api/v1", GoogleAuthRoutes);
-app.use("api/v1", MicrosoftAuthRoutes);
-app.use("api/v1", GitHubAuthRoutes);
+app.use("/api/v1", GoogleAuthRoutes);
+app.use("/api/v1", MicrosoftAuthRoutes);
+app.use("/api/v1", GitHubAuthRoutes);
 
 server.listen(process.env.PORT, () => {
   console.log(`Server is running at http://localhost:${process.env.PORT}`);
