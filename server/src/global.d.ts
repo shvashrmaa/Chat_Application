@@ -4,6 +4,7 @@ declare global {
         PORT : number,
         MONGODB_URL : string,
         COOKIE_SECRET : string,
+        CLIENT_URL : string
       }
     }
   }
