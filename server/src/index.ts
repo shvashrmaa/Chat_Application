@@ -7,7 +7,10 @@ import { connectToMongo } from "./database/database";
 import UserRoutes from "./routes/userRoutes";
 import ConversationRoutes from "./routes/conversationRoute";
 import MessageRoutes from "./routes/messageRoute";
+import passport from "passport";
+import cookieSession from "cookie-session";
 
+dotenv.config();
 // ******************* Server Implementation *************************
 const app = express();
 const server = createServer(app);
@@ -18,14 +21,25 @@ const io = new Server(server, {
   },
 });
 
-// ************************** Middlewares ***************************
-app.use(cors());
-dotenv.config();
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "DELETE", "UPDATE"],
+  })
+);
+app.use(
+  cookieSession({
+    name: "session",
+    keys: [process.env.COOKIE_SECRET],
+    maxAge: 24 * 60 * 60 * 1000,
+  })
+);
 
-// ******************** MongoDb Database Connection ************
+app.use(passport.initialize());
+app.use(passport.session());
+
 connectToMongo();
 
-// *************************** Server Routes ********************
 app.get("/", (req: any, res: any) => {
   res.status(200).send("ChatApp server is running");
 });
@@ -34,11 +48,8 @@ app.use("/api/v1", UserRoutes);
 app.use("/api/v1", ConversationRoutes);
 app.use("/api/v1", MessageRoutes);
 
-// ******************** Server Listening on PORT 5000 *****************************
 server.listen(process.env.PORT, () => {
-  console.log(
-    `Server is running at http://localhost:${process.env.PORT}`
-  );
+  console.log(`Server is running at http://localhost:${process.env.PORT}`);
 });
 
 // ********************* Socket implementation *********************
