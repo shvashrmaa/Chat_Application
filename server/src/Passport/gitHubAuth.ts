@@ -11,6 +11,8 @@ passport.use(
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: process.env.GITHUB_CALLBACK_URL,
     },
-    function (accessToken, refreshToken, profile, done, cb) {}
+    function (accessToken, refreshToken, profile, done, cb) {
+      console.log(profile)
+    }
   )
 );

@@ -12,9 +12,9 @@ passport.use(
       callbackURL: process.env.MICROSOFT_CALLBACK_URL,
       scope: ["user.read"],
     },
-    
-    function (accessToken, refreshToken, profile, done , cb) {
 
+    function (accessToken, refreshToken, profile, done, cb) {
+      console.log(profile);
     }
   )
 );
