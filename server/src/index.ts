@@ -7,6 +7,9 @@ import { connectToMongo } from "./database/database";
 import UserRoutes from "./routes/userRoutes";
 import ConversationRoutes from "./routes/conversationRoute";
 import MessageRoutes from "./routes/messageRoute";
+import GoogleAuthRoutes from "./routes/googleAuthRoute";
+import GitHubAuthRoutes from "./routes/gitHubAuthRoute";
+import MicrosoftAuthRoutes from "./routes/microsoftAuthRoute";
 import passport from "passport";
 import cookieSession from "cookie-session";
 
@@ -47,6 +50,9 @@ app.get("/", (req: any, res: any) => {
 app.use("/api/v1", UserRoutes);
 app.use("/api/v1", ConversationRoutes);
 app.use("/api/v1", MessageRoutes);
+app.use("api/v1", GoogleAuthRoutes);
+app.use("api/v1", MicrosoftAuthRoutes);
+app.use("api/v1", GitHubAuthRoutes);
 
 server.listen(process.env.PORT, () => {
   console.log(`Server is running at http://localhost:${process.env.PORT}`);
