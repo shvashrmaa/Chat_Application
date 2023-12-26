@@ -5,8 +5,7 @@ const router = express.Router();
 
 router.route("/auth/microsoft").get(
   passport.authenticate("microsoft", {
-    prompt: "select_account ",
-    scope: ["profile"],
+    scope: ['openid', 'profile' , 'email'],
   })
 );
 

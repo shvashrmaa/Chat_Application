@@ -10,6 +10,9 @@ import MessageRoutes from "./routes/messageRoute";
 import GoogleAuthRoutes from "./routes/googleAuthRoute";
 import GitHubAuthRoutes from "./routes/gitHubAuthRoute";
 import MicrosoftAuthRoutes from "./routes/microsoftAuthRoute";
+import { googleAuth } from "./Passport/googleAuth";
+import { gitHubAuth } from "./Passport/gitHubAuth";
+import { MicrosoftAuth } from "./Passport/microsoftAuth";
 import passport from "passport";
 import cookieSession from "cookie-session";
 
@@ -53,6 +56,10 @@ app.use("/api/v1", MessageRoutes);
 app.use("/api/v1", GoogleAuthRoutes);
 app.use("/api/v1", MicrosoftAuthRoutes);
 app.use("/api/v1", GitHubAuthRoutes);
+
+googleAuth();
+gitHubAuth();
+MicrosoftAuth();
 
 server.listen(process.env.PORT, () => {
   console.log(`Server is running at http://localhost:${process.env.PORT}`);

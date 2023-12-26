@@ -7,7 +7,7 @@ router
   .route("/auth/github")
   .get(passport.authenticate("github", { scope: ["profile"] }));
 
-router.route("auth/github/callback").get(
+router.route("/auth/github/callback").get(
   passport.authenticate("github", {
     successRedirect: process.env.CLIENT_URL,
     failureRedirect: "api/v1/auth/github/failed",
