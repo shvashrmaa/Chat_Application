@@ -1,4 +1,4 @@
-import mongoose, { Schema , Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 
 export interface IUser {
@@ -11,7 +11,8 @@ export interface IUser {
   githubId: string;
   microsoftId: string;
   googleEmail : string,
-  comparePassword(clientPassword : string):Promise<Boolean>
+  comparePassword(clientPassword : string):Promise<Boolean>,
+  conversations : mongoose.Schema.Types.ObjectId[]
 }
 
 const userSchema = new Schema<IUser>(
@@ -24,7 +25,8 @@ const userSchema = new Schema<IUser>(
     googleId: { type: String },
     githubId: { type: String },
     microsoftId: { type: String },
-    googleEmail : {type : String}
+    googleEmail : {type : String},
+    conversations:{type : [mongoose.Schema.Types.ObjectId] , path : 'Conversation'}
   },
   {
     timestamps: true,

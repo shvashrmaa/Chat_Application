@@ -3,7 +3,7 @@ import mongoose, { Schema, mongo } from "mongoose";
 
 interface IConversation {
   members: mongoose.Schema.Types.ObjectId[];
-  messages: mongoose.Schema.Types.ObjectId[];
+  messagesId: mongoose.Schema.Types.ObjectId[];
 }
 
 const conversationSchema = new Schema<IConversation>(
@@ -13,9 +13,8 @@ const conversationSchema = new Schema<IConversation>(
       required: true,
       path: "User",
     },
-    messages: {
+    messagesId: {
       type: [mongoose.Schema.Types.ObjectId],
-      required: true,
       path: "Message",
     },
   },

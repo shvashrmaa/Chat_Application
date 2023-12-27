@@ -2,14 +2,54 @@ import messageModel from "../models/messageSchema";
 import ConverasationModel from "../models/conversationSchema";
 import { Request, Response } from "express";
 import expressAsyncHandler from "express-async-handler";
+import UserModel from "../models/userSchema";
+import mongoose from "mongoose";
 
 const getMessage = expressAsyncHandler(async (req: Request, res: Response) => {
   res.status(200).send("Get User Details");
 });
 
-const postMessage = expressAsyncHandler(async (req: Request, res: Response) => {
-  res.status(200).send("Post Conversation");
-});
+const postNewMessage = expressAsyncHandler(
+  async (req: Request, res: Response): Promise<any> => {
+    const { receiver, message, conversationId } = req.body;
+    try {
+      const isConversationIdExist = await ConverasationModel.findById(
+        conversationId
+      );
+      if (!isConversationIdExist) {
+        return res
+          .status(401)
+          .json({ serverMessage: "conversation not found" });
+      }
+      const isReceiverIdExist = await UserModel.findById(receiver);
+      if (!isReceiverIdExist) {
+        return res.status(401).json({ serverMessage: "reciver not found" });
+      }
+
+      const newMessage = new messageModel({
+        sender: req.user._id,
+        receiver: receiver,
+        conversationId: conversationId,
+        message: message,
+      });
+
+      const savedMessage = await newMessage.save();
+
+      if (savedMessage) {
+        await ConverasationModel.findByIdAndUpdate(conversationId, {
+          $push: { messagesId: savedMessage._id },
+        });
+        return res.status(200).json({
+          serverMessage: "Message successfully created",
+          message: savedMessage,
+        });
+      }
+    } catch (error: any) {
+      console.log(error);
+      res.status(500).json({ errorMessage: error.message });
+    }
+  }
+);
 
 const updateMessage = expressAsyncHandler(
   async (req: Request, res: Response) => {
@@ -23,4 +63,4 @@ const deleteMessage = expressAsyncHandler(
   }
 );
 
-export { postMessage, getMessage, deleteMessage, updateMessage };
+export { postNewMessage, getMessage, deleteMessage, updateMessage };

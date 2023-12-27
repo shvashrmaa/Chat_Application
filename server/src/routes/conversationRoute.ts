@@ -3,12 +3,13 @@ import {
   deleteConversation,
   getConversation,
   getConversationById,
-  postConversation,
+  postNewConversation,
 } from "../controller/conversationController";
+import authentication from "../middleware/authentication";
 
 const router = express.Router();
 
-router.route("/conversation").post(postConversation);
+router.route("/conversation/new").post(authentication, postNewConversation);
 router.route("/conversation").get(getConversation);
 router.route("/conversation/:conversationId").get(getConversationById);
 router.route("/conversation/:conversationId").delete(deleteConversation);

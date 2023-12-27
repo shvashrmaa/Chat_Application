@@ -1,9 +1,10 @@
 import express from "express";
-import {getMessage , deleteMessage , postMessage , updateMessage} from '../controller/messageController'
+import {getMessage , deleteMessage , postNewMessage , updateMessage} from '../controller/messageController'
+import authentication from "../middleware/authentication";
 
 const router = express.Router();
 
-router.route("/message").post(postMessage);
+router.route("/message/new").post(authentication , postNewMessage);
 router.route("/message").get(getMessage);
 router.route("/message/:messageId").delete(deleteMessage);
 router.route("/message/:messageId").patch(updateMessage);
