@@ -1,8 +1,12 @@
 import passport from "passport";
 import UserModel from "../models/userSchema";
 import microsoftAuth from "passport-microsoft";
+import generateToken from "../middleware/token";
 
 const microsoftStrategy = microsoftAuth.Strategy;
+
+//  Microsoft Strategy don't work here
+// Microsoft not accept personal emails :)
 
 export const MicrosoftAuth = () => {
   passport.use(
@@ -13,9 +17,40 @@ export const MicrosoftAuth = () => {
         callbackURL: process.env.MICROSOFT_CALLBACK_URL,
       },
 
-      function (accessToken: any, refreshToken: any, profile: any, done: any) {
+      async function (
+        accessToken: any,
+        refreshToken: any,
+        profile: { id: any },
+        done: any
+      ) {
         console.log(profile);
-        done(null, profile);
+
+        try {
+          const existingUser = await UserModel.findOne({
+            microsoftId: profile.id,
+          });
+
+          if (existingUser) {
+            done(null, {
+              token: generateToken(existingUser._id),
+              user: existingUser,
+            });
+          }
+
+          const newUser = new UserModel({});
+
+          const savedUser = await newUser.save();
+
+          if (savedUser) {
+            done(null, {
+              token: generateToken(savedUser._id),
+              user: savedUser,
+            });
+          }
+        } catch (error) {
+          console.log(error);
+          done(error, undefined);
+        }
       }
     )
   );

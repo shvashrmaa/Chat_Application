@@ -14,6 +14,7 @@ declare global {
       MICROSOFT_CLIENT_ID: string;
       MICROSOFT_CLIENT_SECRET: string;
       MICROSOFT_CALLBACK_URL: string;
+      JWT_SECRET_KEY : string
     }
   }
 }

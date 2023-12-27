@@ -8,10 +8,7 @@ const Authentication = () => {
   const handleGithubAuth = () => {
     window.open("http://localhost:5000/api/v1/auth/github", "_self");
   };
-
-  const handleMicrosoftAuth = () => {
-    window.open("http://localhost:5000/api/v1/auth/microsoft", "_self");
-  };
+  
   return (
     <div className="w-[100vw] h-[100vh] flex items-center justify-center">
       <div className="border-2 shadow-lg flex flex-col w-[60%] h-[80%] items-center justify-center gap-4">
@@ -26,12 +23,6 @@ const Authentication = () => {
           onClick={() => handleGithubAuth()}
         >
           Continue with Github
-        </button>
-        <button
-          className="py-2 px-8 bg-blue-700 text-white font-bold w-[50%]"
-          onClick={() => handleMicrosoftAuth()}
-        >
-          Continue with Microsoft
         </button>
       </div>
     </div>
