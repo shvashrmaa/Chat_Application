@@ -51,7 +51,7 @@ const LoginUserDetails = expressAsyncHandler(async (req:Request, res:Response):P
 
   const user = await UserModel.findOne({ email: email });
 
-  if (user && (await user.ComparePassword(password))) {
+  if (user && (await user.comparePassword(password))) {
     return res.status(200).json({
       token: await generateToken(user._id),
       serverMessage: "Successfully Logged In",

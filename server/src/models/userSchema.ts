@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema , Document } from "mongoose";
 import bcrypt from "bcryptjs";
 
 export interface IUser {
@@ -10,7 +10,8 @@ export interface IUser {
   googleId: string;
   githubId: string;
   microsoftId: string;
-  googleEmail : string
+  googleEmail : string,
+  comparePassword(clientPassword : string):Promise<Boolean>
 }
 
 const userSchema = new Schema<IUser>(
@@ -30,7 +31,7 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-interface IUserModel extends IUser, Document {}
+interface IUserModel extends IUser {}
 
 userSchema.pre("save", async function (next):Promise<void> {
   if (!this.isModified("password")) {
@@ -48,7 +49,7 @@ userSchema.pre("save", async function (next):Promise<void> {
   }
 });
 
-userSchema.methods.ComparePassword = async function(clientPassword: string):Promise<boolean>{
+userSchema.methods.comparePassword = async function(clientPassword: string):Promise<boolean>{
   try {
     const matchedPassword = await bcrypt.compare(clientPassword , this.password)
     return matchedPassword
