@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 
-interface IUser {
+export interface IUser {
   email: string;
   password: string;
   userName: string;

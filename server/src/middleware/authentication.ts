@@ -1,10 +1,10 @@
 import JWT from "jsonwebtoken";
-import UserModel from "../models/userSchema";
+import UserModel, { IUser } from "../models/userSchema";
 import expressAsyncHandler from "express-async-handler";
 import { Request, Response, NextFunction } from "express";
 
 const authentication = expressAsyncHandler(
-  async (req: Request, res: Response, next: NextFunction):Promise<any> => {
+  async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     let token;
     if (
       req.headers.authorization &&
@@ -12,10 +12,12 @@ const authentication = expressAsyncHandler(
     ) {
       try {
         token = req.headers.authorization.split(" ")[1];
-        const decodedToken = JWT.verify(token, process.env.JWT_SECRET_KEY);
-        req.user = await UserModel.findById(decodedToken.id).select(
+        const decodedToken = JWT.verify(token, process.env.JWT_SECRET_KEY) as {
+          id: string;
+        };
+        req.user = (await UserModel.findById(decodedToken.id).select(
           "-password"
-        );
+        )) as IUser;
         next();
       } catch (error) {
         console.log(error);

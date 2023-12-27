@@ -1,6 +1,6 @@
 import JWT, { JwtPayload } from "jsonwebtoken";
 
-const generateToken = async (id: {id : JwtPayload}):Promise<string> => {
+const generateToken = async (id:JwtPayload):Promise<string> => {
   const token = JWT.sign({ id }, process.env.JWT_SECRET_KEY, {
     expiresIn: "1d",
   });
