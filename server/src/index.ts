@@ -15,6 +15,7 @@ import { gitHubAuth } from "./Passport/gitHubAuth";
 import { MicrosoftAuth } from "./Passport/microsoftAuth";
 import passport from "passport";
 import cookieSession from "cookie-session";
+import session from "express-session";
 
 dotenv.config();
 // ******************* Server Implementation *************************
@@ -33,11 +34,12 @@ app.use(
     methods: ["GET", "POST", "DELETE", "UPDATE"],
   })
 );
+
 app.use(
-  cookieSession({
-    name: "session",
-    keys: [process.env.COOKIE_SECRET],
-    maxAge: 24 * 60 * 60 * 1000,
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
   })
 );
 

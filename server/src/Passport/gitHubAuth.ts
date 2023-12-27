@@ -54,7 +54,7 @@ export const gitHubAuth = () => {
   );
 
   passport.serializeUser(function (user: any, done) {
-    return done(null, user.userId);
+    return done(null, user);
   });
 
   passport.deserializeUser(async function (id: any, done) {
