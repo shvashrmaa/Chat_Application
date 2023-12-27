@@ -25,7 +25,7 @@ export const googleAuth = () => {
           }
 
           const newUser = new UserModel({
-            email: profile.emails && profile?.emails[0].value,
+            googleEmail: profile.emails && profile?.emails[0].value,
             userName: profile.displayName,
             avatar: profile.photos && profile.photos[0]?.value,
             authProvider: profile.provider,

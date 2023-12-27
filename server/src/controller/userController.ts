@@ -5,12 +5,12 @@ import generateToken from "../middleware/token";
 
 const getUserDetails = expressAsyncHandler(
   async (req: Request, res: Response) => {
-    res.status(200).send("Get User Details");
+    res.status(200).json(req.user)
   }
 );
 
 const RegisterUserDetails = expressAsyncHandler(
-  async (req: Request, res: Response) => {
+  async (req:Request, res:Response):Promise<any> => {
     const { email, password, userName, avatar } = req.body;
     try {
       const existingUser = await UserModel.findOne({ email: email });
@@ -46,32 +46,32 @@ const RegisterUserDetails = expressAsyncHandler(
   }
 );
 
-const LoginUserDetails = expressAsyncHandler(async (req, res) => {
+const LoginUserDetails = expressAsyncHandler(async (req:Request, res:Response):Promise<any> => {
   const { email, password } = req.body;
 
   const user = await UserModel.findOne({ email: email });
 
-  if (user && (await user.comparePassword(password))) {
-    res.status(200).json({
-      token: generateToken(user._id),
+  if (user && (await user.ComparePassword(password))) {
+    return res.status(200).json({
+      token: await generateToken(user._id),
       serverMessage: "Successfully Logged In",
     });
   } else {
-    res
+    return res
       .status(401)
       .json({ serverMessage: "email or password is incorrect. Try again!!" });
   }
 });
 
 const deleteUserDetails = expressAsyncHandler(
-  async (req: Request, res: Response) => {
-    res.status(200).send("Delete User Details");
+  async (req: Request, res: Response):Promise<any> => {
+    return res.status(200).send("Delete User Details");
   }
 );
 
 const updateUserDetails = expressAsyncHandler(
-  async (req: Request, res: Response) => {
-    res.status(200).send("update User Details");
+  async (req: Request, res: Response):Promise<any> => {
+    return res.status(200).send("update User Details");
   }
 );
 

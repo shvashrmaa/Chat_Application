@@ -10,6 +10,7 @@ interface IUser {
   googleId: string;
   githubId: string;
   microsoftId: string;
+  googleEmail : string
 }
 
 const userSchema = new Schema<IUser>(
@@ -22,6 +23,7 @@ const userSchema = new Schema<IUser>(
     googleId: { type: String },
     githubId: { type: String },
     microsoftId: { type: String },
+    googleEmail : {type : String}
   },
   {
     timestamps: true,
@@ -30,7 +32,7 @@ const userSchema = new Schema<IUser>(
 
 interface IUserModel extends IUser, Document {}
 
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next):Promise<void> {
   if (!this.isModified("password")) {
     return next();
   }
@@ -40,13 +42,13 @@ userSchema.pre("save", async function (next) {
     const hashedPassword = await bcrypt.hash(this.password, salt);
 
     this.password = hashedPassword;
-    next();
+    return next();
   } catch (error: any) {
-    next(error);
+    return next(error);
   }
 });
 
-userSchema.methods.ComparePassword = async(clientPassword: string):Promise<boolean> => {
+userSchema.methods.ComparePassword = async function(clientPassword: string):Promise<boolean>{
   try {
     const matchedPassword = await bcrypt.compare(clientPassword , this.password)
     return matchedPassword
