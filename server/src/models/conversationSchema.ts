@@ -1,7 +1,7 @@
 import { timeStamp } from "console";
 import mongoose, { Schema, mongo } from "mongoose";
 
-interface IConversation {
+export interface IConversation {
   members: mongoose.Schema.Types.ObjectId[];
   messagesId: mongoose.Schema.Types.ObjectId[];
 }
@@ -11,11 +11,11 @@ const conversationSchema = new Schema<IConversation>(
     members: {
       type: [mongoose.Schema.Types.ObjectId],
       required: true,
-      path: "User",
+      ref: "User",
     },
     messagesId: {
       type: [mongoose.Schema.Types.ObjectId],
-      path: "Message",
+      ref: "Message",
     },
   },
   {timestamps : true}

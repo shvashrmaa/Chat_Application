@@ -2,15 +2,17 @@ import UserModel from "../models/userSchema";
 import expressAsyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import generateToken from "../middleware/token";
+import { error } from "console";
+import ConverasationModel from "../models/conversationSchema";
 
 const getUserDetails = expressAsyncHandler(
   async (req: Request, res: Response) => {
-    res.status(200).json(req.user)
+    res.status(200).json(req.user);
   }
 );
 
 const RegisterUserDetails = expressAsyncHandler(
-  async (req:Request, res:Response):Promise<any> => {
+  async (req: Request, res: Response): Promise<any> => {
     const { email, password, userName, avatar } = req.body;
     try {
       const existingUser = await UserModel.findOne({ email: email });
@@ -46,31 +48,33 @@ const RegisterUserDetails = expressAsyncHandler(
   }
 );
 
-const LoginUserDetails = expressAsyncHandler(async (req:Request, res:Response):Promise<any> => {
-  const { email, password } = req.body;
+const LoginUserDetails = expressAsyncHandler(
+  async (req: Request, res: Response): Promise<any> => {
+    const { email, password } = req.body;
 
-  const user = await UserModel.findOne({ email: email });
+    const user = await UserModel.findOne({ email: email });
 
-  if (user && (await user.comparePassword(password))) {
-    return res.status(200).json({
-      token: await generateToken(user._id),
-      serverMessage: "Successfully Logged In",
-    });
-  } else {
-    return res
-      .status(401)
-      .json({ serverMessage: "email or password is incorrect. Try again!!" });
+    if (user && (await user.comparePassword(password))) {
+      return res.status(200).json({
+        token: await generateToken(user._id),
+        serverMessage: "Successfully Logged In",
+      });
+    } else {
+      return res
+        .status(401)
+        .json({ serverMessage: "email or password is incorrect. Try again!!" });
+    }
   }
-});
+);
 
 const deleteUserDetails = expressAsyncHandler(
-  async (req: Request, res: Response):Promise<any> => {
+  async (req: Request, res: Response): Promise<any> => {
     return res.status(200).send("Delete User Details");
   }
 );
 
 const updateUserDetails = expressAsyncHandler(
-  async (req: Request, res: Response):Promise<any> => {
+  async (req: Request, res: Response): Promise<any> => {
     return res.status(200).send("update User Details");
   }
 );

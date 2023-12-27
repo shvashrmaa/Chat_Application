@@ -26,7 +26,7 @@ const userSchema = new Schema<IUser>(
     githubId: { type: String },
     microsoftId: { type: String },
     googleEmail : {type : String},
-    conversations:{type : [mongoose.Schema.Types.ObjectId] , path : 'Conversation'}
+    conversations:{type : [mongoose.Schema.Types.ObjectId] , ref : 'Conversation'}
   },
   {
     timestamps: true,

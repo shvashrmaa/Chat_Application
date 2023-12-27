@@ -10,7 +10,7 @@ import authentication from "../middleware/authentication";
 const router = express.Router();
 
 router.route("/conversation/new").post(authentication, postNewConversation);
-router.route("/conversation").get(getConversation);
+router.route("/conversation").get(authentication , getConversation);
 router.route("/conversation/:conversationId").get(getConversationById);
 router.route("/conversation/:conversationId").delete(deleteConversation);
 

@@ -3,7 +3,6 @@ import ConverasationModel from "../models/conversationSchema";
 import { Request, Response } from "express";
 import expressAsyncHandler from "express-async-handler";
 import UserModel from "../models/userSchema";
-import mongoose from "mongoose";
 
 const getMessage = expressAsyncHandler(async (req: Request, res: Response) => {
   res.status(200).send("Get User Details");

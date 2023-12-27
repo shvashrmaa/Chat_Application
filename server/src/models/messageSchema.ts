@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-interface IMessage {
+export interface IMessage {
   receiver: mongoose.Schema.Types.ObjectId;
   sender: mongoose.Schema.Types.ObjectId;
   message: string;
@@ -12,18 +12,18 @@ const messageSchema = new Schema<IMessage>(
     receiver: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      path: "User",
+      ref: "User",
     },
     sender: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      path: "User",
+      ref: "User",
     },
     message: { type: String, required: true },
     conversationId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      path: "Conversation",
+      ref: "Conversation",
     },
   },
   {

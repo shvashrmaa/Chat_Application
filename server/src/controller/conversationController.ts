@@ -4,8 +4,15 @@ import UserModel from "../models/userSchema";
 import { Request, Response } from "express";
 
 const getConversation = expressAsyncHandler(
-  async (req: Request, res: Response) => {
-    res.status(200).send("Get User Details");
+  async (req: Request, res: Response):Promise<any> => {
+    try {
+      const conversation = await ConverasationModel.find({members : req.user._id}).select('-messagesId').populate("members" , "userName email").exec()
+      return res.send(conversation)
+
+    } catch (error:any) {
+      console.log(error)
+      return res.send(error.message)
+    }
   }
 );
 
