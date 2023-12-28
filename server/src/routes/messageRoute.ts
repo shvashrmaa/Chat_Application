@@ -5,7 +5,7 @@ import authentication from "../middleware/authentication";
 const router = express.Router();
 
 router.route("/message/new").post(authentication , postNewMessage);
-router.route("/message").get(getMessage);
+router.route("/messages").get(authentication,getMessage);
 router.route("/message/:messageId").delete(deleteMessage);
 router.route("/message/:messageId").patch(updateMessage);
 

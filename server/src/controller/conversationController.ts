@@ -4,21 +4,19 @@ import UserModel from "../models/userSchema";
 import { Request, Response } from "express";
 
 const getConversation = expressAsyncHandler(
-  async (req: Request, res: Response):Promise<any> => {
+  async (req: Request, res: Response): Promise<any> => {
     try {
-      const conversation = await ConverasationModel.find({members : req.user._id}).select('-messagesId').populate("members" , "userName email").exec()
-      return res.send(conversation)
-
-    } catch (error:any) {
-      console.log(error)
-      return res.send(error.message)
+      const conversation = await ConverasationModel.find({
+        members: { $in: [req.user._id] },
+      });
+      if (conversation) {
+        return res.status(200).json(conversation);
+      }
+      return res.status(404).json("No conversation found");
+    } catch (error: any) {
+      console.log(error);
+      return res.send(error.message);
     }
-  }
-);
-
-const getConversationById = expressAsyncHandler(
-  async (req: Request, res: Response) => {
-    res.status(200).send("Get Conversation by id");
   }
 );
 
@@ -57,7 +55,7 @@ const postNewConversation = expressAsyncHandler(
         await UserModel.findByIdAndUpdate(receiverId, {
           $pull: { conversations: savedConversation._id },
         });
-        
+
         return res.status(200).json({
           serverMessage: "New Conversation created",
           conversation: savedConversation,
@@ -76,9 +74,4 @@ const deleteConversation = expressAsyncHandler(
   }
 );
 
-export {
-  getConversationById,
-  getConversation,
-  deleteConversation,
-  postNewConversation,
-};
+export { getConversation, deleteConversation, postNewConversation };
