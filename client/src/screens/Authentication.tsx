@@ -1,29 +1,24 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
+
+type Variant = "LOGIN" | "REGISTER";
 
 const Authentication = () => {
-  const handleGoogleAuth = () => {
-    window.open("http://localhost:5000/api/v1/auth/google", "_self");
+  const [Variant, setVariant] = useState<Variant>("LOGIN");
+
+  const [isLoading, setisLoading] = useState(false);
+
+  const toggleVariant = () => {
+    if (Variant === "LOGIN") {
+      setVariant("REGISTER");
+    } else {
+      setVariant("LOGIN");
+    }
   };
 
-  const handleGithubAuth = () => {
-    window.open("http://localhost:5000/api/v1/auth/github", "_self");
-  };
-  
   return (
-    <div className="w-[100vw] h-[100vh] flex items-center justify-center">
-      <div className="border-2 shadow-lg flex flex-col w-[60%] h-[80%] items-center justify-center gap-4">
-        <button
-          className="py-2 px-8 bg-red-500 text-white font-bold w-[50%]"
-          onClick={() => handleGoogleAuth()}
-        >
-          Continue with Google
-        </button>
-        <button
-          className="py-2 px-8 bg-black text-white font-bold w-[50%]"
-          onClick={() => handleGithubAuth()}
-        >
-          Continue with Github
-        </button>
+    <div className="bg-neutral-100 h-[100vh] w-[100vw] flex items-center justify-center">
+      <div className="h-[70%] w-[90%] md:w-[60%] lg:w-[40%] ring-1 ring-gray-100 shadow-md bg-white flex flex-col">
+        <div className="">Sign in to continue</div>
       </div>
     </div>
   );
