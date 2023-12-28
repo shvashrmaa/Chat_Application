@@ -4,8 +4,22 @@ import { Request, Response } from "express";
 import expressAsyncHandler from "express-async-handler";
 import UserModel from "../models/userSchema";
 
-const getMessage = expressAsyncHandler(async (req: Request, res: Response) => {
-  res.status(200).send("Get User Details");
+const getMessage = expressAsyncHandler(async (req: Request, res: Response):Promise<any> => {
+  try {
+    const {conversationId} = req.params
+
+    const isConversationExist = await ConverasationModel.findById(conversationId)
+
+    if(isConversationExist) {
+      const messages = await messageModel.find({conversationId : conversationId})
+      return res.status(200).json(messages)
+    }
+
+    return res.status(404).json({serverMessage : "Conversation not found"})
+  } catch (error: any) {
+    console.log(error)
+    return res.status(500).json({errorMessage : error.message})
+  }
 });
 
 const postNewMessage = expressAsyncHandler(
